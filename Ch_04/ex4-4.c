@@ -3,27 +3,27 @@
 #include <stdlib.h>
 #include <string.h>
 
-// ÀÌÁß ¿¬°á ¸®½ºÆ®ÀÇ ³ëµå ±¸Á¶¸¦ ±¸Á¶Ã¼·Î Á¤ÀÇ 
+// ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ì˜ ë…¸ë“œ êµ¬ì¡°ë¥¼ êµ¬ì¡°ì²´ë¡œ ì •ì˜ 
 typedef struct ListNode {
-	struct ListNode* llink;									// ¿ŞÂÊ(¼±Çà) ³ëµå¿¡ ´ëÇÑ ¸µÅ©
+	struct ListNode* llink;									// ì™¼ìª½(ì„ í–‰) ë…¸ë“œì— ëŒ€í•œ ë§í¬
 	char data[4];											
-	struct ListNode* rlink;									// ¿À¸¥ÂÊ(´ÙÀ½) ³ëµå¿¡ ´ëÇÑ ¸µÅ©
+	struct ListNode* rlink;									// ì˜¤ë¥¸ìª½(ë‹¤ìŒ) ë…¸ë“œì— ëŒ€í•œ ë§í¬
 } listNode;
 
-// ¸®½ºÆ® ½ÃÀÛÀ» ³ªÅ¸³»´Â head ³ëµå¸¦ ±¸Á¶Ã¼·Î Á¤ÀÇ 
+// ë¦¬ìŠ¤íŠ¸ ì‹œì‘ì„ ë‚˜íƒ€ë‚´ëŠ” head ë…¸ë“œë¥¼ êµ¬ì¡°ì²´ë¡œ ì •ì˜ 
 typedef struct {
 	listNode* head;
 } linkedList_h;
 
-// °ø¹é ÀÌÁß ¿¬°á ¸®½ºÆ®¸¦ »ı¼ºÇÏ´Â ¿¬»ê
+// ê³µë°± ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ë¥¼ ìƒì„±í•˜ëŠ” ì—°ì‚°
 linkedList_h* createLinkedList_h(void) {
 	linkedList_h* DL;
-	DL = (linkedList_h*)malloc(sizeof(linkedList_h));		// Çìµå ³ëµå ÇÒ´ç
-	DL->head = NULL;										// °ø¹é ¸®½ºÆ®ÀÌ¹Ç·Î NULL·Î ¼³Á¤
+	DL = (linkedList_h*)malloc(sizeof(linkedList_h));						// í—¤ë“œ ë…¸ë“œ í• ë‹¹
+	DL->head = NULL;										// ê³µë°± ë¦¬ìŠ¤íŠ¸ì´ë¯€ë¡œ NULLë¡œ ì„¤ì •
 	return DL;
 }
 
-// ÀÌÁß ¿¬°á ¸®½ºÆ®¸¦ ¼ø¼­´ë·Î Ãâ·ÂÇÏ´Â ¿µ»ó
+// ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ë¥¼ ìˆœì„œëŒ€ë¡œ ì¶œë ¥í•˜ëŠ” ì˜ìƒ
 void printList(linkedList_h* DL) {
 	listNode* p;
 	printf(" DL = (");
@@ -36,7 +36,7 @@ void printList(linkedList_h* DL) {
 	printf(") \n");
 }
 
-// pre µÚ¿¡ ³ëµå¸¦ »ğÀÔÇÏ´Â ¿¬»ê
+// pre ë’¤ì— ë…¸ë“œë¥¼ ì‚½ì…í•˜ëŠ” ì—°ì‚°
 void insertNode(linkedList_h* DL, listNode* pre, char* x) {
 	listNode* newNode;
 	newNode = (listNode*)malloc(sizeof(listNode));
@@ -50,23 +50,23 @@ void insertNode(linkedList_h* DL, listNode* pre, char* x) {
 		newNode->rlink = pre->rlink;
 		pre->rlink = newNode;
 		newNode->llink = pre;
-		if (newNode->rlink != NULL)							// »ğÀÔ ÀÚ¸®¿¡ ´ÙÀ½ ³ëµå°¡ ÀÖ´Â °æ¿ì
+		if (newNode->rlink != NULL)							// ì‚½ì… ìë¦¬ì— ë‹¤ìŒ ë…¸ë“œê°€ ìˆëŠ” ê²½ìš°
 			newNode->rlink->llink = newNode;
 	}
 }
 
-// ÀÌÁß ¿¬°á ¸®½ºÆ®¿¡¼­ old ³ëµå¸¦ »èÁ¦ÇÏ´Â ¿¬»ê 
+// ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ì—ì„œ old ë…¸ë“œë¥¼ ì‚­ì œí•˜ëŠ” ì—°ì‚° 
 void deleteNode(linkedList_h* DL, listNode* old) {
-	if (DL->head == NULL) return;							// °ø¹é ¸®½ºÆ®ÀÎ °æ¿ì »èÁ¦ ¿¬»ê Áß´Ü
-	else if (old == NULL) return;							// »èÁ¦ÇÒ ³ëµå°¡ ¾ø´Â °æ¿ì »èÁ¦ ¿¬»ê Áß´Ü
+	if (DL->head == NULL) return;							// ê³µë°± ë¦¬ìŠ¤íŠ¸ì¸ ê²½ìš° ì‚­ì œ ì—°ì‚° ì¤‘ë‹¨
+	else if (old == NULL) return;							// ì‚­ì œí•  ë…¸ë“œê°€ ì—†ëŠ” ê²½ìš° ì‚­ì œ ì—°ì‚° ì¤‘ë‹¨
 	else {
 		old->llink->rlink = old->rlink;
 		old->rlink->llink = old->llink;
-		free(old);											// »èÁ¦ ³ëµåÀÇ ¸Ş¸ğ¸® ÇØÁ¦
+		free(old);											// ì‚­ì œ ë…¸ë“œì˜ ë©”ëª¨ë¦¬ í•´ì œ
 	}
 }
 
-// ¸®½ºÆ®¿¡¼­ x ³ëµå¸¦ Å½»öÇÏ´Â ¿¬»ê 
+// ë¦¬ìŠ¤íŠ¸ì—ì„œ x ë…¸ë“œë¥¼ íƒìƒ‰í•˜ëŠ” ì—°ì‚° 
 listNode* searchNode(linkedList_h* DL, char* x) {
 	listNode* temp;
 	temp = DL->head;
@@ -80,24 +80,24 @@ listNode* searchNode(linkedList_h* DL, char* x) {
 int main() {
 	linkedList_h* DL;
 	listNode* p;
-	DL = createLinkedList_h();								// °ø¹é ¸®½ºÆ® »ı¼º
-	printf("(1) ÀÌÁß ¿¬°á ¸®½ºÆ® »ı¼ºÇÏ±â! \n");
+	DL = createLinkedList_h();								// ê³µë°± ë¦¬ìŠ¤íŠ¸ ìƒì„±
+	printf("(1) ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ ìƒì„±í•˜ê¸°! \n");
 	printList(DL); getchar();
 
-	printf("(2) ÀÌÁß ¿¬°á ¸®½ºÆ®¿¡ [¿ù] ³ëµå »ğÀÔÇÏ±â! \n");
-	insertNode(DL, NULL, "¿ù");
+	printf("(2) ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ì— [ì›”] ë…¸ë“œ ì‚½ì…í•˜ê¸°! \n");
+	insertNode(DL, NULL, "ì›”");
 	printList(DL); getchar();
 
-	printf("(3) ÀÌÁß ¿¬°á ¸®½ºÆ®ÀÇ [¿ù] ³ëµå µÚ¿¡ [¼ö] ³ëµå »ğÀÔÇÏ±â! \n");
-	p = searchNode(DL, "¿ù"); insertNode(DL, p, "¼ö");
+	printf("(3) ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ì˜ [ì›”] ë…¸ë“œ ë’¤ì— [ìˆ˜] ë…¸ë“œ ì‚½ì…í•˜ê¸°! \n");
+	p = searchNode(DL, "ì›”"); insertNode(DL, p, "ìˆ˜");
 	printList(DL); getchar();
 
-	printf("(4) ÀÌÁß ¿¬°á ¸®½ºÆ®ÀÇ [¼ö] ³ëµå µÚ¿¡ [±İ] ³ëµå »ğÀÔÇÏ±â! \n");
-	p = searchNode(DL, "¼ö"); insertNode(DL, p, "±İ");
+	printf("(4) ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ì˜ [ìˆ˜] ë…¸ë“œ ë’¤ì— [ê¸ˆ] ë…¸ë“œ ì‚½ì…í•˜ê¸°! \n");
+	p = searchNode(DL, "ìˆ˜"); insertNode(DL, p, "ê¸ˆ");
 	printList(DL); getchar();
 
-	printf("(5) ÀÌÁß ¿¬°á ¸®½ºÆ®¿¡¼­ [¼ö] ³ëµå »èÁ¦ÇÏ±â! \n");
-	p = searchNode(DL, "¼ö"); deleteNode(DL, p);
+	printf("(5) ì´ì¤‘ ì—°ê²° ë¦¬ìŠ¤íŠ¸ì—ì„œ [ìˆ˜] ë…¸ë“œ ì‚­ì œí•˜ê¸°! \n");
+	p = searchNode(DL, "ìˆ˜"); deleteNode(DL, p);
 	printList(DL); getchar();
 
 	return 0;
